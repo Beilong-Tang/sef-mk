@@ -4,5 +4,7 @@
 
 ## Extract Librispeech WavLM
 
-An example of extracting WavLM embeddings from Librispeech can be found at `extract_wavlm_librispeech.sh`. One can easily modify it to accomodate their own dataset.
+An example of extracting WavLM embeddings from Librispeech can be found at `extract_wavlm_librispeech.sh`. One can easily modify it to accomodate their own dataset. 
+
+The `all.scp` in the output directory contains paths to the wavlm embeddings which we will actually use. 
 
