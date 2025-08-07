@@ -13,6 +13,28 @@ TODO
 
 ## Inference 
 
+Run the following shell scripts:
+
+```shell
+ckpt=<path-to-detokenizer-ckpt> # downloaded above
+
+kmeans_scp=<path-to-kmeans-scp> # scp for kmeans paths
+audio_scp=<path-to-audio-scp>
+output_dir=<path-to-output>
+wavlm_ckpt=<path-to-wavlm-ckpt>
+
+gpus="cuda:0 cuda:1 cuda:2 cuda:3" # avaliable gpus
+num_proc=8 # number of processes to run the inference
+
+
+python inference_audio_multi_kmeans.py --kmeans_scp $kmeans_scp --audio_scp $audio_scp \
+    --output_dir $output_dir --wavlm_ckpt $wavlm_ckpt \
+    --ckpt_path $ckpt \
+    --num_proc $num_proc \
+    --gpus $gpus \
+    # --kmeans_num <int> 
+```
+
 
 ## Optional: Train the conformer on your own.
 
