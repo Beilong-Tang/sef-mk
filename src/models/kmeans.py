@@ -138,7 +138,7 @@ if __name__ == "__main__":
     x[0][3] = 3.5
     x[0][3][2] = 3
     print(x)
-    km = Kmeans_Old(False, 2, 10)
+    km = KMeansQuantizer()
     cluster, means = km(x)
     print(cluster)
     print(means)
