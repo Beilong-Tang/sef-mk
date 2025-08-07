@@ -29,11 +29,12 @@ num_proc=8 # number of processes to run the inference
 
 python inference_audio_multi_kmeans.py --kmeans_scp $kmeans_scp --audio_scp $audio_scp \
     --output_dir $output_dir --wavlm_ckpt $wavlm_ckpt \
-    --ckpt_path $ckpt \
+    --ckpt $ckpt \
     --num_proc $num_proc \
     --gpus $gpus \
     # --kmeans_num <int> 
 ```
+
 
 
 ## Optional: Train the conformer on your own.
