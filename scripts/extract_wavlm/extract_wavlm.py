@@ -1,3 +1,8 @@
+import os 
+import sys
+from pathlib import Path
+sys.path.append(str(Path(os.path.abspath(__file__)).parent.parent.parent))
+
 from models.wavlm.WavLMWrapper import WavLMWrapper as WavLM
 import torch
 from typing import List
