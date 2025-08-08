@@ -1,6 +1,6 @@
 # Extract Wavlm
 
-'extract\_wavlm.py' extracts the WavLM embeddings from 6th layer from audio data.
+'extract\_wavlm.py' extracts the WavLM embeddings from the 6th layer from audio data.
 
 ## Extract Librispeech WavLM
 
