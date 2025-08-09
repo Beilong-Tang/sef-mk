@@ -1,7 +1,10 @@
 *.pt
 *.pth
 *.scp
-__pycache__
+__pycache__/
 *.wav
 # *test*
 *.tar.gz
+*.flac
+LibriSpeech/*
+testaudio/

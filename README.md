@@ -37,6 +37,8 @@ ckpt/
 ```
 
 ## Anonymize Testdata
+
+Create directory `testdata/ori` and put the audio wavs you want to anonymize into that folder.
  
 ```bash 00_test.sh```
 The anonymized speech is saved to `testdata/anon/`
