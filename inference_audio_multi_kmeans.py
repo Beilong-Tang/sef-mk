@@ -3,7 +3,7 @@ import torch.multiprocessing as mp
 import torch
 import os
 import sys
-
+import numpy as np
 from pathlib import Path
 sys.path.append(str(Path(__file__).absolute().parent.parent.parent))
 
@@ -29,19 +29,19 @@ def random_split(arr: list, size: int) -> List[str]:
     return res
 
 
-def inference(rank: int, args: argparse.Namespace):
-    device = args.gpus[rank % len(args.gpus)]
-    source_list = list(
-        get_source_list(args.audio_scp)[rank :: args.num_proc]
-    )  # list of audio paths
-    random.shuffle(source_list)
+def inference(args):
+    device = args.gpus
+    source_list = get_source_list(args.audio_scp)
     wavlm = WavLM(args.wavlm_ckpt).to(device)
-    print(f"rank {rank} got data number {len(source_list)}")
+    wavlm.eval()
+
+
+    print(f"data number {len(source_list)}")
     print(f"output directory {args.output_dir}")
     os.makedirs(args.output_dir, exist_ok=True)
 
     # 1. Initlize conformer path
-    ckpt = torch.load(args.ckpt, map_location = 'cpu')
+    ckpt = torch.load(args.ckpt,  map_location = 'cpu', weights_only=False)
     detokenizer = Detokenizer(**ckpt['extra']['model_config'])
     detokenizer.load_state_dict(ckpt['model_state_dict'])
     detokenizer.eval()
@@ -53,6 +53,11 @@ def inference(rank: int, args: argparse.Namespace):
         random.shuffle(kmeans_list)
         kmeans_list = kmeans_list[:args.kmeans_num]
     source_res = random_split(source_list, len(kmeans_list)) # 
+    
+    #km_centers  = {}
+    #con_embs = {}
+    #wavlm_embs = {}
+    
     # 3. Iterate them, initialize kmeans model
     for _k_idx, _scp in enumerate(source_res):
         if len(_scp) == 0:
@@ -60,9 +65,9 @@ def inference(rank: int, args: argparse.Namespace):
         kmeans_model = KMeansQuantizer(kmeans_list[_k_idx])
         kmeans_model.eval()
         kmeans_model.to(device)
-        print(f"Rank {rank} using kmeans model idx {_k_idx} to infer audios of length {len(_scp)}...")
+        print(f" using kmeans model idx {_k_idx} to infer audios of length {len(_scp)}...")
         with torch.no_grad():
-            for s in tqdm.tqdm(_scp, desc=f"rank {rank}: [{_k_idx}/{len(source_res)}]"):
+            for s in tqdm.tqdm(_scp, desc=f"[{_k_idx}/{len(source_res)}]"):
                 audio, rate = torchaudio.load(s)
                 audio = audio.to(device)  # [1,T]
                 
@@ -71,15 +76,24 @@ def inference(rank: int, args: argparse.Namespace):
                 out_emb = detokenizer(kmeans_emb) # [1, T, E]
                 audio_hat = detokenizer.recon(out_emb).cpu() # [1,T]
                 filename = s.split("/")[-1].replace(".flac", ".wav")
+                
+                #basename = os.path.basename(s).split('.')[0]
+                #km_centers[basename] = kmeans_emb.cpu()
+                #con_embs[basename] = out_emb.cpu()
+                #wavlm_embs[basename] = wavlm_emb.cpu()
+
                 output_path = os.path.join(args.output_dir, filename)
                 torchaudio.save(output_path, audio_hat, rate)
                 pass
+        #np.save(os.path.join(args.output_dir, 'km_centers.npy'), km_centers)
+        #np.save(os.path.join(args.output_dir, 'con_embs.npy'), con_embs)
+        #np.save(os.path.join(args.output_dir, 'wavlm_embs.npy'), wavlm_embs)
 
 def main(args):
     # os.makedirs(args.)
     setup_seed(SEED)
     print(args.gpus)
-    mp.spawn(inference, args=(args,), nprocs=args.num_proc, join=True)
+    inference(args)
     print("Done...")
     pass
 
@@ -117,12 +131,8 @@ if __name__ == "__main__":
         help = "path to conformer ckpt"
     )
     parser.add_argument(
-        "--num_proc", type=int, default=8, help="total number of procedures"
-    )
-    parser.add_argument(
-        "--gpus", nargs="+", default=["cuda:0", "cuda:1", "cuda:2", "cuda:3"]
+                "--gpus",  type=str, default="cuda:0", help="CUDA device to use"
     )
     args = parser.parse_args()
     main(args)
     pass
-
