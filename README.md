@@ -22,9 +22,10 @@ The original audio samples are from [LibriSpeech](https://www.openslr.org/12) un
 
 ## Pre-requisite
 
-1. Download our conformer ckpt from [here](https://drive.google.com/file/d/1E9NDTnsQp73bHu1Xn8-aTdPDqq1w0K5x/view?usp=sharing) to `./ckpt` folder.
-2. Download Kmeans model from [here](https://drive.google.com/file/d/1pQx_nFZ-Y7v7B_NCGAheAyJ9UNzhyNda/view?usp=sharing) to `./ckpt` folder and uncompress.
-3. Download WavLM from [here](https://drive.google.com/file/d/12-cB34qCTvByWT-QtOcZaqwwO21FLSqU/view) to `./ckpt` folder.
+- `pip install -r requirements.txt`
+- Download our conformer ckpt from [here](https://drive.google.com/file/d/1E9NDTnsQp73bHu1Xn8-aTdPDqq1w0K5x/view?usp=sharing) to `./ckpt` folder.
+- Download Kmeans model from [here](https://drive.google.com/file/d/1pQx_nFZ-Y7v7B_NCGAheAyJ9UNzhyNda/view?usp=sharing) to `./ckpt` folder and uncompress.
+- Download WavLM from [here](https://drive.google.com/file/d/12-cB34qCTvByWT-QtOcZaqwwO21FLSqU/view) to `./ckpt` folder.
 
 The folder structure under ckpt should be:
 ```
