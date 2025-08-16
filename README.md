@@ -1,12 +1,12 @@
-## SEF-MK
+## SEF-MK: Speaker-Embedding-Free Voice Anonymization through Multi-k-means Quantization
+
+[![Paper](https://img.shields.io/badge/Paper-red?&logo=arxiv)](https://arxiv.org/abs/2508.07086)
 
 This repository contains the official implementation of our ASRU 2025 Paper
 
- SEF-MK: Speaker-Embedding-Free Voice Anonymization through Multi-k-means Quantization
+SEF-MK: Speaker-Embedding-Free Voice Anonymization through Multi-k-means Quantization
 
 by Beilong Tang, Xiaoxiao Miao, Xin Wang, Ming Li
-
-Paper link: [arxiv](https://arxiv.org/abs/2508.07086)
 
 
 ## Audio examples
