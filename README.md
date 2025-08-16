@@ -6,7 +6,7 @@ This repository contains the official implementation of our ASRU 2025 Paper
 
 by Beilong Tang, Xiaoxiao Miao, Xin Wang, Ming Li
 
-Paper link: [arixv](https://arxiv.org/abs/2508.07086)
+Paper link: [arxiv](https://arxiv.org/abs/2508.07086)
 
 
 ## Audio examples
